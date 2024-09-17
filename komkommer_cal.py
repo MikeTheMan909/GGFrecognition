@@ -1,3 +1,5 @@
+#%%
+
 import cv2 as cv                 #Lib for image processing
 import glob
 import numpy as np
@@ -9,33 +11,36 @@ from scipy import stats
 #komkommer uitsnijder
 def kleursnijder(img_array):
     hsv = cv.cvtColor(img_array, cv.COLOR_BGR2HSV)
+    img_arr = cv.cvtColor(img_array, cv.COLOR_BGR2RGB)
 
-    lower_green = np.array([20, 60, 20])  # Lower bound for green
-    upper_green = np.array([85, 255, 255])  # Upper bound for green
+    lower_green = np.array([40, 40, 20])  # Lower bound for green
+    upper_green = np.array([70, 255, 255])  # Upper bound for green
 
     mask = cv.inRange(hsv, lower_green, upper_green)
+    new_img = cv.bitwise_and(img_array, img_array, mask=mask)
+    new_img = cv.cvtColor(new_img, cv.COLOR_BGR2RGB)
+    img_array_new = cv.resize(img_arr, (200,200))
+    plt.imshow(img_array_new, cmap="gray")
+    plt.show()
+    img_array_new = cv.resize(new_img, (200,200))
+    plt.imshow(img_array_new, cmap="gray")
+    plt.show()
 
-    return cv.bitwise_and(img_array, img_array, mask=mask)
+    return new_img
 
 
 #RGB test codes
 def kleurtest_rood(img_array):
     img = kleursnijder(img_array)
-
-    B, G, R= cv.split(img)
+    B, G, R= cv.split(img)  # creates three seperate arrays for blue green and red
     rood_ar = R.flatten()  # Converts the 2D array to a 1D array
-
     rood_waardes = rood_ar[rood_ar != 0]  # Filter out zeros
+    return_val = np.mean(rood_waardes)  # takes the mean value of red
 
-    return_val, count = stats.mode(rood_waardes)    # Step 4: Merge the channels back together
-
-
-    # Step 3: Zero out the Red and Blue channels
+    #for printing a red picture
     G[:] = 0
     B[:] = 0
-
-    # Step 4: Merge the channels back together
-    green_img = cv.merge([R, G, B])  # The green channel is kept, R and B are now 0
+    green_img = cv.merge([R, G, B])  
     img_array_new = cv.resize(green_img, (200,200))
     plt.imshow(img_array_new, cmap="gray")
     plt.show()
@@ -49,7 +54,7 @@ def kleurtest_groen(img_array):
 
     groen_waardes = groen_ar[groen_ar != 0]  # Filter out zeros
 
-    return_val, count = stats.mode(groen_waardes)    # Step 4: Merge the channels back together
+    return_val  = np.mean(groen_waardes)    # Step 4: Merge the channels back together
     return return_val 
 
 def kleurtest_blauw(img_array):
@@ -60,7 +65,7 @@ def kleurtest_blauw(img_array):
 
     groen_waardes = groen_ar[groen_ar != 0]  # Filter out zeros
 
-    return_val, count = stats.mode(groen_waardes)    # Step 4: Merge the channels back together
+    return_val  = np.mean(groen_waardes)    # Step 4: Merge the channels back together
     return return_val 
 
 
@@ -74,7 +79,7 @@ def kleurtest_hue(img_array):
 
     fil_waardes = unfil_ar[unfil_ar != 0]  # Filter out zeros
 
-    return_val, count = stats.mode(fil_waardes)    # Step 4: Merge the channels back together
+    return_val  = np.mean(fil_waardes)    # Step 4: Merge the channels back together
     return return_val     
 
 def kleurtest_S(img_array):
@@ -86,7 +91,7 @@ def kleurtest_S(img_array):
 
     fil_waardes = unfil_ar[unfil_ar != 0]  # Filter out zeros
 
-    return_val, count = stats.mode(fil_waardes)    # Step 4: Merge the channels back together
+    return_val  = np.mean(fil_waardes)    # Step 4: Merge the channels back together
     return return_val  
 
 def kleurtest_V(img_array):
@@ -98,7 +103,7 @@ def kleurtest_V(img_array):
 
     fil_waardes = unfil_ar[unfil_ar != 0]  # Filter out zeros
 
-    return_val, count = stats.mode(fil_waardes)    # Step 4: Merge the channels back together
+    return_val  = np.mean(fil_waardes)    # Step 4: Merge the channels back together
     return return_val   
 
 
@@ -127,10 +132,11 @@ def komkommer():
 
     nummer=[]
     i=0
-    for name in glob.glob('photos/trainingdata/voorbeeldkomkommers/*.[jJ][pP][eE][gG]'):
+    for name in glob.glob('photos/Trainingdata/cucumber/*.jpg'):
         img_array = cv.imread(name, cv.IMREAD_UNCHANGED)
         names.append(name)
         label=name.split('_')[0] # we splitten de string en pakken het eerste stukje
+        img_array = cv.resize(img_array, (200,200))
         rood_outcome.append(kleurtest_rood(img_array))
         groen_outcome.append(kleurtest_groen(img_array))
         blauw_outcome.append(kleurtest_blauw(img_array))
@@ -163,3 +169,4 @@ def komkommer():
         plt.xlabel("S waarde")
         plt.ylabel("V waarde")
     plt.show()    
+# %%
