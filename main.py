@@ -10,78 +10,63 @@ import qualifiers
 #values_kleuren = [rood_outcome,groen_outcome,blauw_outcome,hue_outcome,S_outcome,V_outcome]
 
 
-def init():
-    # Define a method for selecting modus (1) or average (0)
-    methode = 1
+# Define a method for selecting modus (1) or average (0)
+average = 1
+mode = 0
     
-    # Get cucumber color values using qualifiers (e.g., RGB, HSV values)
-    komkommer_kleuren_avg = qualifiers.kleur('photos/Trainingdata/cucumber/*.jpg', methode)
+# Get cucumber color values using qualifiers (e.g., RGB, HSV values)
+komkommer_kleuren_avg = qualifiers.kleur('photos/Trainingdata/cucumber/*.jpg', average)
+komkommer_kleuren_mode = qualifiers.kleur('photos/Trainingdata/cucumber/*.jpg', mode)
+
+   
+# Unpack the color outcomes for the cucumber images
+
+   
+
+
+def plotting(data_arrays, labels, colors):
+    """
+    Function to plot multiple arrays on the same set of graphs.
     
-    # Unpack the color outcomes for the cucumber images
-    rood_outcome, groen_outcome, blauw_outcome, hue_outcome, S_outcome, V_outcome = komkommer_kleuren_avg
+    Parameters:
+    - data_arrays: List of tuples, where each tuple contains 6 arrays (one for each color value: red, green, blue, hue, saturation, brightness)
+    - labels: List of strings, one label for each data set (e.g., ['Cucumber', 'Tomato'])
+    - colors: List of colors for each label (e.g., ['green', 'red'])
+    """
     
-    # Generate a single color for cucumber points (let's use green here as an example)
-    cucumber_color = 'green'
+    num_datasets = len(data_arrays)  # Number of datasets
     
-    # Number of images (assuming the length of one outcome array applies to all)
-    num_images = len(rood_outcome)
+    # Titles for each plot (Red, Green, Blue, Hue, Saturation, Brightness)
+    titles = ['Red Value', 'Green Value', 'Blue Value', 'Hue Value', 'Saturation Value', 'Brightness Value']
     
-    # X-axis: Photo number (index)
-    photo_numbers = np.arange(1, num_images + 1)
+    # Loop through each color channel (red, green, blue, hue, saturation, value)
+    for i in range(6):
+        plt.figure(figsize=(10, 6))
+        
+        # Plot each dataset's corresponding color channel
+        for j in range(num_datasets):
+            num_images = len(data_arrays[j][i])  # Get the length of the current dataset's color channel
+            photo_numbers = np.arange(1, num_images + 1)  # Create x-axis values corresponding to the number of images
+            
+            plt.plot(photo_numbers, data_arrays[j][i], marker='o', color=colors[j], label=labels[j])
+        
+        plt.xlabel("Photo number")
+        plt.ylabel(titles[i])
+        plt.title(f"{titles[i]} across Photos")
+        plt.legend()
+        plt.show()
 
-    # Plot 1: Red value vs Photo number
-    plt.figure(figsize=(10, 6))
-    plt.plot(photo_numbers, rood_outcome, marker='o', color=cucumber_color, label='Cucumber')
-    plt.xlabel("Photo number")
-    plt.ylabel("Red Value")
-    plt.title("Red Value across Cucumber Photos")
-    plt.legend()
-    plt.show()
+# Example usage:
 
-    # Plot 2: Green value vs Photo number
-    plt.figure(figsize=(10, 6))
-    plt.plot(photo_numbers, groen_outcome, marker='o', color=cucumber_color, label='Cucumber')
-    plt.xlabel("Photo number")
-    plt.ylabel("Green Value")
-    plt.title("Green Value across Cucumber Photos")
-    plt.legend()
-    plt.show()
+# Assuming komkommer_kleuren_avg and another vegetable's data arrays like tomato_kleuren_avg are available
+# Each variable contains a tuple of arrays representing (red, green, blue, hue, saturation, brightness)
 
-    # Plot 3: Blue value vs Photo number
-    plt.figure(figsize=(10, 6))
-    plt.plot(photo_numbers, blauw_outcome, marker='o', color=cucumber_color, label='Cucumber')
-    plt.xlabel("Photo number")
-    plt.ylabel("Blue Value")
-    plt.title("Blue Value across Cucumber Photos")
-    plt.legend()
-    plt.show()
+# komkommer_kleuren_avg = (rood_outcome, groen_outcome, blauw_outcome, hue_outcome, S_outcome, V_outcome)
+# tomato_kleuren_avg = (rood_outcome_tomato, groen_outcome_tomato, blauw_outcome_tomato, hue_outcome_tomato, S_outcome_tomato, V_outcome_tomato)
 
-    # Plot 4: Hue value vs Photo number
-    plt.figure(figsize=(10, 6))
-    plt.plot(photo_numbers, hue_outcome, marker='o', color=cucumber_color, label='Cucumber')
-    plt.xlabel("Photo number")
-    plt.ylabel("Hue Value")
-    plt.title("Hue Value across Cucumber Photos")
-    plt.legend()
-    plt.show()
-
-    # Plot 5: Saturation value vs Photo number
-    plt.figure(figsize=(10, 6))
-    plt.plot(photo_numbers, S_outcome, marker='o', color=cucumber_color, label='Cucumber')
-    plt.xlabel("Photo number")
-    plt.ylabel("Saturation Value")
-    plt.title("Saturation Value across Cucumber Photos")
-    plt.legend()
-    plt.show()
-
-    # Plot 6: Value (Brightness) vs Photo number
-    plt.figure(figsize=(10, 6))
-    plt.plot(photo_numbers, V_outcome, marker='o', color=cucumber_color, label='Cucumber')
-    plt.xlabel("Photo number")
-    plt.ylabel("Value (Brightness)")
-    plt.title("Brightness Value across Cucumber Photos")
-    plt.legend()
-    plt.show()
-
-init()
-# You can later extend this to add new fruits/vegetables with different colors
+# Call the function with multiple arrays
+plotting(
+    data_arrays=[komkommer_kleuren_avg, komkommer_kleuren_mode],  # Multiple datasets
+    labels=['komkommer_avg', 'komkommer_mode'],                            # Labels for each dataset
+    colors=['green', 'red']                                   # Colors for each dataset
+)

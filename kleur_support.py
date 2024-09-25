@@ -14,7 +14,7 @@ def kleurtest_rood(img_array,methode):
     if methode == 1:
         return_val = np.mean(rood_waardes)  # takes the mean value of red
     elif methode == 0:
-        return_val = stats.mode(rood_waardes)  # takes the mean value of red
+        return_val = stats.mode(rood_waardes)[0]  # takes the mean value of red
     return return_val 
 
 def kleurtest_groen(img_array,methode):
@@ -28,7 +28,7 @@ def kleurtest_groen(img_array,methode):
     if methode == 1:
         return_val = np.mean(groen_waardes)  # takes the mean value of red
     elif methode == 0:
-        return_val = stats.mode(groen_waardes)  # takes the mean value of red
+        return_val = stats.mode(groen_waardes)[0]  # takes the mean value of red
     return return_val 
 
 def kleurtest_blauw(img_array,methode):
@@ -42,7 +42,7 @@ def kleurtest_blauw(img_array,methode):
     if methode == 1:
         return_val = np.mean(blauw_waardes)  # takes the mean value of red
     elif methode == 0:
-        return_val = stats.mode(blauw_waardes)  # takes the mean value of red    
+        return_val = stats.mode(blauw_waardes)[0]  # takes the mean value of red    
     return return_val 
 
 
@@ -59,7 +59,7 @@ def kleurtest_hue(img_array,methode):
     if methode == 1:
         return_val = np.mean(fil_waardes)  # takes the mean value of red
     elif methode == 0:
-        return_val = stats.mode(fil_waardes)  # takes the mean value of red
+        return_val = stats.mode(fil_waardes)[0]  # takes the mean value of red
     return return_val     
 
 def kleurtest_S(img_array,methode):
@@ -71,7 +71,10 @@ def kleurtest_S(img_array,methode):
 
     fil_waardes = unfil_ar[unfil_ar != 0]  # Filter out zeros
 
-    return_val  = np.mean(fil_waardes)    # Step 4: Merge the channels back together
+    if methode == 1:
+        return_val = np.mean(fil_waardes)
+    elif methode == 0:
+        return_val = stats.mode(fil_waardes)[0]    
     return return_val  
 
 def kleurtest_V(img_array,methode):
@@ -86,5 +89,5 @@ def kleurtest_V(img_array,methode):
     if methode == 1:
         return_val = np.mean(fil_waardes)
     elif methode == 0:
-        return_val = stats.mode(fil_waardes)
+        return_val = stats.mode(fil_waardes)[0]
     return return_val   
