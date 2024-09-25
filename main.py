@@ -17,6 +17,8 @@ mode = 0
 # Get cucumber color values using qualifiers (e.g., RGB, HSV values)
 komkommer_kleuren_avg = qualifiers.kleur('photos/Trainingdata/cucumber/*.jpg', average)
 komkommer_kleuren_mode = qualifiers.kleur('photos/Trainingdata/cucumber/*.jpg', mode)
+appels_kleuren_avg = qualifiers.kleur('photos/Trainingdata/greenapple/*.jpg', average)
+
 
    
 # Unpack the color outcomes for the cucumber images
@@ -66,7 +68,7 @@ def plotting(data_arrays, labels, colors):
 
 # Call the function with multiple arrays
 plotting(
-    data_arrays=[komkommer_kleuren_avg, komkommer_kleuren_mode],  # Multiple datasets
-    labels=['komkommer_avg', 'komkommer_mode'],                            # Labels for each dataset
-    colors=['green', 'red']                                   # Colors for each dataset
+    data_arrays=[komkommer_kleuren_avg, appels_kleuren_avg],  # Multiple datasets
+    labels=['komkommer_avg', 'appel_avg'],                            # Labels for each dataset
+    colors=['green', 'yellow']                                   # Colors for each dataset
 )
