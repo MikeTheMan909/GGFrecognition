@@ -3,7 +3,10 @@ import argparse
 import imutils
 import cv2 as cv
 import glob
+import numpy as np
+import math
 
+# Function to detect the shape of the object in the image
 def detect(c):
     # initialize the shape name and approximate the contour
     shape = "unidentified"
@@ -31,6 +34,7 @@ def detect(c):
     # return the name of the shape
     return shape
 
+# Function to detect the shape of the object in the image
 def ShapeDect_RDP(map_directory):
 
     shapes = []
@@ -50,33 +54,33 @@ def ShapeDect_RDP(map_directory):
         #thresholds the image
         thresh = cv.threshold(gray, 20, 255, cv.THRESH_BINARY)[1]
 
-        cv.imshow("Image", thresh)
-        cv.waitKey(0)
         cnts = cv.findContours(thresh.copy(), cv.RETR_EXTERNAL,
             cv.CHAIN_APPROX_SIMPLE)
         cnts = imutils.grab_contours(cnts)
         
-        for c in cnts:
-            # compute the center of the contour, then detect the name of the
-            # shape using only the contour
-            M = cv.moments(c)
-            cX = int((M["m10"] / M["m00"]) * ratio)
-            cY = int((M["m01"] / M["m00"]) * ratio)
-            shape = detect(c)
+        c = max(cnts, key=cv.contourArea)
+        # compute the center of the contour, then detect the name of the
+        # shape using only the contour
+        M = cv.moments(c)
+        if(M["m00"]==0):
+            shapes.append("line")
+            continue
+        cX = int((M["m10"] / M["m00"]) * ratio)
+        cY = int((M["m01"] / M["m00"]) * ratio)
+        shape = detect(c)
 
-            shapes.append(shape)
-            cX_all.append(cX)
-            cY_all.append(cY)
-            # multiply the contour (x, y)-coordinates by the resize ratio,
-            # then draw the contours and the name of the shape on the image
-            # print_shape_on_image(c, shape, img_array, ratio)
+        shapes.append(shape)
+        cX_all.append(cX)
+        cY_all.append(cY)
+        # multiply the contour (x, y)-coordinates by the resize ratio,
+        # then draw the contours and the name of the shape on the image
+        # print_shape_on_image(c, shape, img_array, ratio, cX, cY)
     
     centerpoint = [[cX_all[i], cY_all[i]] for i in range(len(cX_all))]
     return shapes, centerpoint
 
-
-
-def print_shape_on_image(c, shape, img_array, ratio):
+# Function to print the shape on the image for RDP
+def print_shape_on_image(c, shape, img_array, ratio, cX, cY):
     c = c.astype("float")
     c *= ratio
     c = c.astype("int")
@@ -86,4 +90,8 @@ def print_shape_on_image(c, shape, img_array, ratio):
     # show the output image
     cv.imshow("Image", img_array)
     cv.waitKey(0)
+
+
+
+
 
