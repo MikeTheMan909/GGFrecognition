@@ -15,8 +15,8 @@ average = 1
 mode = 0
     
 # Get cucumber color values using qualifiers (e.g., RGB, HSV values)
+komkommer_kleuren_mode = qualifiers.kleur('photos/Trainingdata/greenpepper/*.jpg', mode)
 komkommer_kleuren_avg = qualifiers.kleur('photos/Trainingdata/cucumber/*.jpg', average)
-komkommer_kleuren_mode = qualifiers.kleur('photos/Trainingdata/cucumber/*.jpg', mode)
 appels_kleuren_avg = qualifiers.kleur('photos/Trainingdata/greenapple/*.jpg', average)
 
 

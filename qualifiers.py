@@ -4,24 +4,110 @@ import cv2 as cv                 #Lib for image processing
 import glob
 import numpy as np
 from scipy import stats
+import matplotlib.pyplot as plt  #Lib for plotting images
 import kleur_support
 
-lower_bound_hsv = [40,40,20]
-upper_bound_hsv = [70, 255, 255]
+lower_bound_hsv = [30,35,20]
+upper_bound_hsv = [75, 255, 255]
+min_contour_area=500
 
 
-#komkommer uitsnijder
+#     return new_img
 def object_cutter(img_array):
+    # Step 1: Convert image to HSV
     hsv = cv.cvtColor(img_array, cv.COLOR_BGR2HSV)
+    #print("Converted to HSV.")
 
-    lower_green = np.array(lower_bound_hsv)  # Lower bound for green
-    upper_green = np.array(upper_bound_hsv)  # Upper bound for green
-
+    # Step 2: Create a mask for the green color
+    lower_green = np.array(lower_bound_hsv)
+    upper_green = np.array(upper_bound_hsv)
     mask = cv.inRange(hsv, lower_green, upper_green)
-    new_img = cv.bitwise_and(img_array, img_array, mask=mask)
-    new_img = cv.cvtColor(new_img, cv.COLOR_BGR2RGB)
+    #print(f"Mask created with lower bounds {lower_green} and upper bounds {upper_green}.")
 
-    return new_img
+    # Visualize the mask
+    # plt.imshow(mask, cmap='gray')
+    # plt.title('HSV Mask')
+    # plt.show()
+
+    # Step 3: Find contours from the mask
+    contours, _ = cv.findContours(mask, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
+    #print(f"Number of contours found: {len(contours)}")
+    
+    # Check if no contours were found
+    if len(contours) == 0:
+        #print("No contours found!")
+        return None
+
+    # Step 4: Initialize variables to store the brightest contour
+    brightest_contour = None
+    max_brightness = -1
+
+    # Step 5: Iterate over all contours to find the brightest one
+    for i, contour in enumerate(contours):
+        contour_area = cv.contourArea(contour)
+        if contour_area < min_contour_area:
+            #print(f"Skipping contour {i+1} due to small area: {contour_area}")
+            continue
+
+        #print(f"Processing contour {i+1} of {len(contours)}, area: {contour_area}")
+
+        # Create a mask for this specific contour
+        contour_mask = np.zeros_like(mask)
+        cv.drawContours(contour_mask, [contour], -1, 255, thickness=cv.FILLED)
+
+        # Visualize the contour mask
+        # plt.imshow(contour_mask, cmap='gray')
+        # plt.title(f'Contour {i+1} Mask')
+        # plt.show()
+
+        # Apply the mask to the original image to get the region of interest (ROI)
+        roi = cv.bitwise_and(img_array, img_array, mask=contour_mask)
+
+        # Convert the ROI to grayscale to measure brightness
+        roi_gray = cv.cvtColor(roi, cv.COLOR_BGR2GRAY)
+
+        # Visualize the ROI grayscale image
+        # plt.imshow(roi_gray, cmap='gray')
+        # plt.title(f'ROI Grayscale for Contour {i+1}')
+        # plt.show()
+
+        # Calculate the average brightness in the ROI
+        avg_brightness = cv.mean(roi_gray, mask=contour_mask)[0]
+        #print(f"Average brightness for contour {i+1}: {avg_brightness}")
+
+        # Step 6: Keep track of the contour with the highest brightness
+        if avg_brightness > max_brightness:
+            max_brightness = avg_brightness
+            brightest_contour = contour
+
+    # Step 7: If we found the brightest contour, create a mask for it
+    if brightest_contour is not None:
+        #print("Brightest contour found. Creating mask for it.")
+        # Create a mask for the brightest contour
+        final_mask = np.zeros_like(mask)
+        cv.drawContours(final_mask, [brightest_contour], -1, 255, thickness=cv.FILLED)
+
+        # Visualize the final mask
+        # plt.imshow(final_mask, cmap='gray')
+        # plt.title('Final Mask for Brightest Object')
+        # plt.show()
+
+        # Use the final mask to cut the brightest object out of the original image
+        brightest_object = cv.bitwise_and(img_array, img_array, mask=final_mask)
+
+        # Convert to RGB for display (optional)
+        brightest_object_rgb = cv.cvtColor(brightest_object, cv.COLOR_BGR2RGB)
+
+        # Display the result
+        # plt.imshow(brightest_object_rgb)
+        # plt.title('Brightest Object Cut Out (Rest Black)')
+        # plt.show()
+
+        # Return the image with only the brightest object
+        return brightest_object
+    else:
+        #print("No bright object found!")
+        return None
 
 def kleur(map_directory,methode):
 
