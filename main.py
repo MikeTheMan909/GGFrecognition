@@ -6,6 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt  #Lib for plotting images
 import random
 import qualifiers
+import shapedetect
 
 #values_kleuren = [rood_outcome,groen_outcome,blauw_outcome,hue_outcome,S_outcome,V_outcome]
 
@@ -18,6 +19,12 @@ mode = 0
 paprika_kleuren_avg = qualifiers.kleur('photos/Trainingdata/greenpepper/*.jpg', average)
 komkommer_kleuren_avg = qualifiers.kleur('photos/Trainingdata/cucumber/*.jpg', average)
 appels_kleuren_avg = qualifiers.kleur('photos/Trainingdata/greenapple/*.jpg', average)
+shapes, center  = shapedetect.ShapeDect_RDP('photos/Trainingdata/cucumber/*.jpg')
+
+print(shapes)
+print("cX:")
+print(center)
+   
 # Unpack the color outcomes for the cucumber images
 
    
@@ -48,8 +55,8 @@ def plotting(data_arrays, labels, colors):
 
 
 # Call the function with multiple arrays
-plotting(
-    data_arrays=[komkommer_kleuren_avg, appels_kleuren_avg, paprika_kleuren_avg],  # Multiple datasets
-    labels=['komkommer_avg', 'appel_avg','paprika_avg'],                            # Labels for each dataset
-    colors=['green', 'yellow','brown']                                   # Colors for each dataset
-)
+# plotting(
+#     data_arrays=[komkommer_kleuren_avg, appels_kleuren_avg],  # Multiple datasets
+#     labels=['komkommer_avg', 'appel_avg'],                            # Labels for each dataset
+#     colors=['green', 'yellow']                                   # Colors for each dataset
+# )
