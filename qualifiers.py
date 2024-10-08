@@ -7,9 +7,9 @@ from scipy import stats
 import matplotlib.pyplot as plt  #Lib for plotting images
 import kleur_support
 
-lower_bound_hsv = [30,35,20]
+lower_bound_hsv = [20,20,20]
 upper_bound_hsv = [75, 255, 255]
-min_contour_area = 500
+min_contour_area = 50
 
 
 #     return new_img
@@ -71,6 +71,10 @@ def object_cutter(img_array):
         # Convert to RGB for display (optional)
         brightest_object_rgb = cv.cvtColor(brightest_object, cv.COLOR_BGR2RGB)
 
+        # plt.imshow(brightest_object_rgb)
+        # plt.title('Brightest Object Cut Out (Rest Black)')
+        # plt.show()
+        
         # Return the image with only the brightest object
         return brightest_object
     else:
