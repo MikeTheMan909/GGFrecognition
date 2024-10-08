@@ -15,27 +15,15 @@ average = 1
 mode = 0
     
 # Get cucumber color values using qualifiers (e.g., RGB, HSV values)
-komkommer_kleuren_mode = qualifiers.kleur('photos/Trainingdata/greenpepper/*.jpg', mode)
+paprika_kleuren_avg = qualifiers.kleur('photos/Trainingdata/greenpepper/*.jpg', average)
 komkommer_kleuren_avg = qualifiers.kleur('photos/Trainingdata/cucumber/*.jpg', average)
 appels_kleuren_avg = qualifiers.kleur('photos/Trainingdata/greenapple/*.jpg', average)
-
-
-   
 # Unpack the color outcomes for the cucumber images
 
    
 
 
-def plotting(data_arrays, labels, colors):
-    """
-    Function to plot multiple arrays on the same set of graphs.
-    
-    Parameters:
-    - data_arrays: List of tuples, where each tuple contains 6 arrays (one for each color value: red, green, blue, hue, saturation, brightness)
-    - labels: List of strings, one label for each data set (e.g., ['Cucumber', 'Tomato'])
-    - colors: List of colors for each label (e.g., ['green', 'red'])
-    """
-    
+def plotting(data_arrays, labels, colors):    
     num_datasets = len(data_arrays)  # Number of datasets
     
     # Titles for each plot (Red, Green, Blue, Hue, Saturation, Brightness)
@@ -58,17 +46,10 @@ def plotting(data_arrays, labels, colors):
         plt.legend()
         plt.show()
 
-# Example usage:
-
-# Assuming komkommer_kleuren_avg and another vegetable's data arrays like tomato_kleuren_avg are available
-# Each variable contains a tuple of arrays representing (red, green, blue, hue, saturation, brightness)
-
-# komkommer_kleuren_avg = (rood_outcome, groen_outcome, blauw_outcome, hue_outcome, S_outcome, V_outcome)
-# tomato_kleuren_avg = (rood_outcome_tomato, groen_outcome_tomato, blauw_outcome_tomato, hue_outcome_tomato, S_outcome_tomato, V_outcome_tomato)
 
 # Call the function with multiple arrays
 plotting(
-    data_arrays=[komkommer_kleuren_avg, appels_kleuren_avg],  # Multiple datasets
-    labels=['komkommer_avg', 'appel_avg'],                            # Labels for each dataset
-    colors=['green', 'yellow']                                   # Colors for each dataset
+    data_arrays=[komkommer_kleuren_avg, appels_kleuren_avg, paprika_kleuren_avg],  # Multiple datasets
+    labels=['komkommer_avg', 'appel_avg','paprika_avg'],                            # Labels for each dataset
+    colors=['green', 'yellow','brown']                                   # Colors for each dataset
 )
