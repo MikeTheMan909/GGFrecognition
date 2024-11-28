@@ -41,17 +41,26 @@ mode = 0
     
 
 # Get cucumber color values using qualifiers (e.g., RGB, HSV values)
+advocado_kleuren_avg = qualifiers.kleur(pp.advocado, average)
+greengrape_kleuren_avg = qualifiers.kleur(pp.greengrape, average)
+greenpear_kleuren_avg = qualifiers.kleur(pp.greenpear, average)
+lemon_kleuren_avg = qualifiers.kleur(pp.lemon, average)	
+komkommer_kleuren_avg = qualifiers.kleur(pp.cucumber, average)
+greenapple_kleuren_avg = qualifiers.kleur(pp.greenapple, average)
+greenpepper_kleuren_avg = qualifiers.kleur(pp.greenpepper, average)
+zucchini_kleuren_avg = qualifiers.kleur(pp.zucchini, average)
+
 # paprika_kleuren_avg = qualifiers.kleur('photos/Trainingdata/greenpepper/*.jpg', average)
 # komkommer_kleuren_avg = qualifiers.kleur('photos/Trainingdata/cucumber/*.jpg', average)
 # appels_kleuren_avg = qualifiers.kleur('photos/Trainingdata/greenapple/*.jpg', average)
 shapes_cucumber, center  = shapedetect.ShapeDect_RDP(pp.cucumber)
-# shapes_appel, center  = shapedetect.ShapeDect_RDP(pp.greenapple)
-# shapes_greenpepper, center  = shapedetect.ShapeDect_RDP(pp.greenpepper)
-# shapes_advocado, center  = shapedetect.ShapeDect_RDP(pp.advocado)
-# shapes_greengrape, center  = shapedetect.ShapeDect_RDP(pp.greengrape)
-# shapes_greenpear, center  = shapedetect.ShapeDect_RDP(pp.greenpear)
-# shapes_lemon, center  = shapedetect.ShapeDect_RDP(pp.lemon)
-# shapes_zucchini, center  = shapedetect.ShapeDect_RDP(pp.zucchini)
+shapes_appel, center  = shapedetect.ShapeDect_RDP(pp.greenapple)
+shapes_greenpepper, center  = shapedetect.ShapeDect_RDP(pp.greenpepper)
+shapes_advocado, center  = shapedetect.ShapeDect_RDP(pp.advocado)
+shapes_greengrape, center  = shapedetect.ShapeDect_RDP(pp.greengrape)
+shapes_greenpear, center  = shapedetect.ShapeDect_RDP(pp.greenpear)
+shapes_lemon, center  = shapedetect.ShapeDect_RDP(pp.lemon)
+shapes_zucchini, center  = shapedetect.ShapeDect_RDP(pp.zucchini)
 
 #cornerdetect.cornerdetect(pp.cucumber)
 
