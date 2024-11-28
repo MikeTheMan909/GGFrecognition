@@ -55,7 +55,7 @@ def ShapeDect_RDP(map_directory):
         thresh = cv.threshold(gray, 20, 255, cv.THRESH_BINARY)[1]
 
         cnts = cv.findContours(thresh.copy(), cv.RETR_EXTERNAL,
-            cv.CHAIN_APPROX_SIMPLE)
+            cv.CHAIN_APPROX_NONE)
         cnts = imutils.grab_contours(cnts)
         
         c = max(cnts, key=cv.contourArea)
