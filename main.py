@@ -95,7 +95,7 @@ shapes_cucumber, center  = shapedetect.ShapeDect_RDP(pp.cucumber)
 #     colors=['green', 'yellow']                                   # Colors for each dataset
 # )
 # 
-
+exit()
 
 # insert all weak qualifiers for the model to predict the type of fruit
 WeakQualifier1 = 0
