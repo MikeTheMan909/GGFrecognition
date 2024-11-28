@@ -15,7 +15,7 @@ def kleurtest_rood(img_array,methode):
         return_val = np.mean(rood_waardes)  # takes the mean value of red
     elif methode == 0:
         return_val = stats.mode(rood_waardes)[0]  # takes the mean value of red
-    return return_val 
+    return return_val/255 
 
 def kleurtest_groen(img_array,methode):
     img = qualifiers.object_cutter(img_array)
@@ -29,7 +29,7 @@ def kleurtest_groen(img_array,methode):
         return_val = np.mean(groen_waardes)  # takes the mean value of red
     elif methode == 0:
         return_val = stats.mode(groen_waardes)[0]  # takes the mean value of red
-    return return_val 
+    return return_val/255
 
 def kleurtest_blauw(img_array,methode):
     img = qualifiers.object_cutter(img_array)
@@ -43,7 +43,7 @@ def kleurtest_blauw(img_array,methode):
         return_val = np.mean(blauw_waardes)  # takes the mean value of red
     elif methode == 0:
         return_val = stats.mode(blauw_waardes)[0]  # takes the mean value of red    
-    return return_val 
+    return return_val/255
 
 
 #HSV test codes
@@ -60,7 +60,7 @@ def kleurtest_hue(img_array,methode):
         return_val = np.mean(fil_waardes)  # takes the mean value of red
     elif methode == 0:
         return_val = stats.mode(fil_waardes)[0]  # takes the mean value of red
-    return return_val     
+    return return_val/255     
 
 def kleurtest_S(img_array,methode):
     img = qualifiers.object_cutter(img_array)
@@ -75,7 +75,7 @@ def kleurtest_S(img_array,methode):
         return_val = np.mean(fil_waardes)
     elif methode == 0:
         return_val = stats.mode(fil_waardes)[0]    
-    return return_val  
+    return return_val/255  
 
 def kleurtest_V(img_array,methode):
     img = qualifiers.object_cutter(img_array)
@@ -90,4 +90,4 @@ def kleurtest_V(img_array,methode):
         return_val = np.mean(fil_waardes)
     elif methode == 0:
         return_val = stats.mode(fil_waardes)[0]
-    return return_val   
+    return return_val/255 
