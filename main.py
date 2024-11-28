@@ -18,9 +18,9 @@ average = 1
 mode = 0
     
 # Get cucumber color values using qualifiers (e.g., RGB, HSV values)
-paprika_kleuren_avg = qualifiers.kleur('photos/Trainingdata/greenpepper/*.jpg', average)
-komkommer_kleuren_avg = qualifiers.kleur('photos/Trainingdata/cucumber/*.jpg', average)
-appels_kleuren_avg = qualifiers.kleur('photos/Trainingdata/greenapple/*.jpg', average)
+paprika_kleuren_avg = qualifiers.kleur(pp.greenpepper, average)
+komkommer_kleuren_avg = qualifiers.kleur(pp.cucumber, average)
+appels_kleuren_avg = qualifiers.kleur(pp.greenapple, average)
 shapes_cucumber, center  = shapedetect.ShapeDect_RDP(pp.cucumber)
 shapes_appel, center  = shapedetect.ShapeDect_RDP(pp.greenapple)
 shapes_greenpepper, center  = shapedetect.ShapeDect_RDP(pp.greenpepper)
